@@ -4,15 +4,16 @@ services:
   
   app:
     build: 
-      context: node
+      context: ./node
     container_name: app
+    image: franciscosf/node
     networks:
       - network-fsf 
     volumes:
       - ./node:/user/src/app
     tty: true
-    ports:
-      - "3000:3000"
+    #ports:
+    #  - "3000:3000"
     depends_on:
       - db
 
@@ -31,6 +32,18 @@ services:
     networks:
       - network-fsf
 
+  nginx:
+    build: 
+      context: ./nginx
+    image: franciscosf/nginx
+    container_name: nginx
+    networks: 
+      - network-fsf
+    ports: 
+      - "8080:80"
+    depends_on:
+      - app
+      
 networks:
   network-fsf:
     driver: bridge
