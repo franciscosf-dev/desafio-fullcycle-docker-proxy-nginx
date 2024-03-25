@@ -10,6 +10,19 @@ const config = {
 const mysql = require('mysql')
 const connection = mysql.createConnection(config)
 
+let tableName = 'people';
+  
+  // Query to create table
+let query = `CREATE TABLE IF NOT EXISTS ${tableName} (id INT auto_increment, name VARCHAR(255), primary key (id))`;
+  
+connection.query(query, (err, rows) => {
+      if(err) 
+        console.log("Table Creation Failed")
+      else
+        console.log(`Successfully Created Table - ${tableName}`)
+  })
+
+
 const nomes = ["Daniel", "Gabriel", "Thiago", "Leonardo", "Pedro", "Fernando", "Marco", "Gleica", "Yudi", "Wesley", "Renan", 
                "Francisco", "Wallace", "Mauro", "Henrique", "Luiz", "Antônio", "Lucas", "Igor", "David", "Alvaro", "José", "João", "Paulo", "Denilson"];
 const index_maximo = nomes.length - 1; 
@@ -17,7 +30,7 @@ const index_aleatorio = between(0,index_maximo);
 const sql = `INSERT INTO people(name) values('${nomes[index_aleatorio]}')`
 connection.query(sql)
 
-var texto = '<h1>Full Cycle</h1><br><table><tr><th>Id</th><th>Name</th></tr>'
+var texto = '<h1>Full Cycle Rocks!</h1><br><table><tr><th>Id</th><th>Name</th></tr>'
 
 connection.query('select * from people', (err, results) => {
     results.forEach(element => {
